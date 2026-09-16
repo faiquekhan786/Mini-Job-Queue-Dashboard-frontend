@@ -10,7 +10,7 @@ function App() {
   const fetchJobs = async (isSilent = false) => {
     try {
       if (!isSilent) setLoading(true);
-      const response = await axios.get('http://localhost:3000/jobs');
+      const response = await axios.get('[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)');
       setJobs(response.data);
     } catch (error) {
       console.error("Error fetching jobs:", error);
@@ -23,7 +23,7 @@ function App() {
   // 2. Create Job
   const createJob = async () => {
     try {
-      await axios.post('http://localhost:3000/jobs', {
+      await axios.post('[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)', {
         title: "Test Job " + Math.floor(Math.random() * 1000),
         type: "Data Processing"
       });
@@ -34,16 +34,14 @@ function App() {
     }
   };
 
-  // 3. Update Job Status (Manual Control)
   const updateJobStatus = async (id, newStatus) => {
     try {
-      await axios.patch(`http://localhost:3000/jobs/${id}/status`, {
+      await axios.patch(`[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)/${id}/status`, {
         status: newStatus
       });
       fetchJobs(true);
     } catch (error) {
       console.error("Error updating status:", error);
-      // Catching the edge cases from your NestJS backend (e.g., Race Conditions)
       if (error.response && error.response.data.message) {
         alert(`Update Failed: ${error.response.data.message}`);
       } else {
@@ -52,13 +50,11 @@ function App() {
     }
   };
 
-  // 4. Delete Job
   const deleteJob = async (id) => {
-    // Simple confirmation before deleting
     if (!window.confirm("Are you sure you want to delete this job?")) return;
     
     try {
-      await axios.delete(`http://localhost:3000/jobs/${id}`);
+      await axios.delete(`[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)/${id}`);
       fetchJobs(true);
     } catch (error) {
       console.error("Error deleting job:", error);
@@ -66,7 +62,6 @@ function App() {
     }
   };
 
-  // Auto-refresh every 5 seconds
   useEffect(() => {
     fetchJobs();
     const interval = setInterval(() => {
@@ -75,7 +70,7 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // --- Computed Values for the UI ---
+
   const filteredJobs = filter === 'all' 
     ? jobs 
     : jobs.filter(job => job.status === filter);
@@ -92,7 +87,7 @@ function App() {
     <div className="min-h-screen bg-gray-50 text-gray-800 p-8">
       <div className="max-w-5xl mx-auto">
         
-        {/* Header Section */}
+        /* Header Section */
         <header className="mb-8 border-b pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <h1 className="text-3xl font-bold text-gray-900">Job Queue Dashboard</h1>
           <div className="flex gap-3">
@@ -105,7 +100,7 @@ function App() {
           </div>
         </header>
 
-        {/* Stats & Filters Section */}
+        /* Stats & Filters Section */
         <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
           <div className="flex gap-4 text-sm font-medium">
             <span className="text-gray-600">Total: {counts.total}</span>
@@ -128,7 +123,7 @@ function App() {
           </select>
         </div>
 
-        {/* Main Content Area */}
+        /* Main Content Area */
         <main className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
           
           {loading ? (
@@ -142,7 +137,7 @@ function App() {
               {filteredJobs.map((job) => (
                 <div key={job.id} className="p-4 border border-gray-200 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gray-50 hover:bg-gray-100 transition">
                   
-                  {/* Job Details */}
+                  /* Job Details */
                   <div>
                     <div className="flex items-center gap-3 mb-1">
                       <h3 className="font-semibold text-lg text-gray-800">Job #{job.id}</h3>
@@ -158,7 +153,7 @@ function App() {
                     <p className="text-sm text-gray-500">{job.title}</p>
                   </div>
                   
-                  {/* Action Buttons */}
+                  /* Action Buttons */
                   <div className="flex gap-2">
                     {job.status === 'pending' && (
                       <button onClick={() => updateJobStatus(job.id, 'running')} className="px-3 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded text-sm font-medium transition">
@@ -176,7 +171,7 @@ function App() {
                       </>
                     )}
                     
-                    {/* Delete button is always available */}
+                    /* Delete button is always available */
                     <button onClick={() => deleteJob(job.id)} className="px-3 py-1 bg-gray-200 text-gray-700 hover:bg-red-500 hover:text-white rounded text-sm font-medium transition ml-2">
                       Delete
                     </button>
