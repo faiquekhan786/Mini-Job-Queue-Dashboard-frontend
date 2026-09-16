@@ -1,16 +1,35 @@
-# React + Vite
+# Job Queue Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack job queue dashboard that lets you create, track, and manage tasks. 
 
-Currently, two official plugins are available:
+**Author:** Faique Shareef
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Live Links
+- **Live Dashboard:** https://mini-job-queue-dashboard-frontend-git-main-faique.vercel.app/
+- **Live API:** https://mini-job-queue-dashboard-backend.onrender.com/
 
-## React Compiler
+## Built With
+- **Frontend:** React, Vite, Tailwind CSS
+- **Backend:** NestJS, SQLite
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## How It Works
+* **Smart Buttons:** Jobs strictly follow a path: `Pending ➔ Running ➔ Completed/Failed`. The buttons on the dashboard automatically change based on the job's current status so users can't make invalid clicks.
+* **Concurrency Safe:** If two users have the dashboard open and try to click "Start" on the same job at the exact same time, the database catches it. It lets the first person succeed and shows an error to the second person, preventing duplicate work.
+* **Bonus - Live Auto-Refresh:** I added a background timer in React that silently checks for new job updates every 5 seconds. This makes the dashboard feel like a live, real-time app without the user having to manually click "Refresh" all the time!
 
-## Expanding the ESLint configuration
+## How to Run Locally
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 1. Start the Backend
+\`\`\`bash
+cd backend
+npm install
+npm run start:dev
+\`\`\`
+*(This will automatically create a local SQLite database for you.)*
+
+### 2. Start the Frontend
+\`\`\`bash
+cd frontend
+npm install
+npm run dev
+\`\`\`

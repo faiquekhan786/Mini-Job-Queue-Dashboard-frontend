@@ -66,7 +66,12 @@ function App() {
   };
 
  useEffect(() => {
-    fetchJobs(); 
+    fetchJobs();
+    // Bonus: Silent background polling every 5 seconds
+    const interval = setInterval(() => {
+      fetchJobs(true);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
 
