@@ -10,7 +10,7 @@ function App() {
   const fetchJobs = async (isSilent = false) => {
     try {
       if (!isSilent) setLoading(true);
-      const response = await axios.get('[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)');
+      const response = await axios.get('https://mini-job-queue-dashboard-backend.onrender.com/jobs');
       setJobs(response.data);
     } catch (error) {
       console.error("Error fetching jobs:", error);
@@ -23,7 +23,7 @@ function App() {
   //  Create Job
   const createJob = async () => {
     try {
-      await axios.post('[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)', {
+      await axios.post('https://mini-job-queue-dashboard-backend.onrender.com/jobs', {
         title: "Test Job " + Math.floor(Math.random() * 1000),
         type: "Data Processing"
       });
@@ -37,7 +37,7 @@ function App() {
   //  Update Job Status (Manual Control)
   const updateJobStatus = async (id, newStatus) => {
     try {
-      await axios.patch(`[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)/${id}/status`, {
+      await axios.patch(`https://mini-job-queue-dashboard-backend.onrender.com/jobs/${id}/status`, {
         status: newStatus
       });
       fetchJobs(true);
@@ -57,7 +57,7 @@ function App() {
     if (!window.confirm("Are you sure you want to delete this job?")) return;
     
     try {
-      await axios.delete(`[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)/${id}`);
+      await axios.delete(`https://mini-job-queue-dashboard-backend.onrender.com/jobs/${id}`);
       fetchJobs(true);
     } catch (error) {
       console.error("Error deleting job:", error);
