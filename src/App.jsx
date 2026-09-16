@@ -4,9 +4,9 @@ import axios from 'axios';
 function App() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all'); // 'all', 'pending', 'running', 'completed', 'failed'
+  const [filter, setFilter] = useState('all');
 
-  // 1. Fetch Jobs (Silent refresh prevents flickering)
+  //Fetch Jobs
   const fetchJobs = async (isSilent = false) => {
     try {
       if (!isSilent) setLoading(true);
@@ -20,7 +20,7 @@ function App() {
     }
   };
 
-  // 2. Create Job
+  //  Create Job
   const createJob = async () => {
     try {
       await axios.post('[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)', {
@@ -34,6 +34,7 @@ function App() {
     }
   };
 
+  //  Update Job Status (Manual Control)
   const updateJobStatus = async (id, newStatus) => {
     try {
       await axios.patch(`[https://mini-job-queue-dashboard-backend.onrender.com](https://mini-job-queue-dashboard-backend.onrender.com)/${id}/status`, {
@@ -50,7 +51,9 @@ function App() {
     }
   };
 
+  // Delete Job
   const deleteJob = async (id) => {
+    // Simple confirmation before deleting
     if (!window.confirm("Are you sure you want to delete this job?")) return;
     
     try {
@@ -62,12 +65,8 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    fetchJobs();
-    const interval = setInterval(() => {
-      fetchJobs(true);
-    }, 5000);
-    return () => clearInterval(interval);
+ useEffect(() => {
+    fetchJobs(); 
   }, []);
 
 
@@ -87,7 +86,7 @@ function App() {
     <div className="min-h-screen bg-gray-50 text-gray-800 p-8">
       <div className="max-w-5xl mx-auto">
         
-        /* Header Section */
+        {/* Header Section */}
         <header className="mb-8 border-b pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <h1 className="text-3xl font-bold text-gray-900">Job Queue Dashboard</h1>
           <div className="flex gap-3">
@@ -100,7 +99,7 @@ function App() {
           </div>
         </header>
 
-        /* Stats & Filters Section */
+        {/* Stats & Filters Section */}
         <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
           <div className="flex gap-4 text-sm font-medium">
             <span className="text-gray-600">Total: {counts.total}</span>
@@ -123,7 +122,7 @@ function App() {
           </select>
         </div>
 
-        /* Main Content Area */
+        {/* Main Content Area */}
         <main className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
           
           {loading ? (
@@ -137,7 +136,7 @@ function App() {
               {filteredJobs.map((job) => (
                 <div key={job.id} className="p-4 border border-gray-200 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gray-50 hover:bg-gray-100 transition">
                   
-                  /* Job Details */
+                  {/* Job Details */}
                   <div>
                     <div className="flex items-center gap-3 mb-1">
                       <h3 className="font-semibold text-lg text-gray-800">Job #{job.id}</h3>
@@ -153,7 +152,7 @@ function App() {
                     <p className="text-sm text-gray-500">{job.title}</p>
                   </div>
                   
-                  /* Action Buttons */
+                  {/* Action Buttons */}
                   <div className="flex gap-2">
                     {job.status === 'pending' && (
                       <button onClick={() => updateJobStatus(job.id, 'running')} className="px-3 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded text-sm font-medium transition">
@@ -171,7 +170,7 @@ function App() {
                       </>
                     )}
                     
-                    /* Delete button is always available */
+                    {/* Delete button is always available */}
                     <button onClick={() => deleteJob(job.id)} className="px-3 py-1 bg-gray-200 text-gray-700 hover:bg-red-500 hover:text-white rounded text-sm font-medium transition ml-2">
                       Delete
                     </button>
